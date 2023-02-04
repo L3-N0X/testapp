@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/build/intermediates/res/merged/debug/xml_config.xml.flat",
+        "source": "/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/res/xml/config.xml"
+    }
+]

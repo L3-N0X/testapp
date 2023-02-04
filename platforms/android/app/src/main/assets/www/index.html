@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!--
+        Customize this policy to fit your own app's needs. For more guidance, please refer to the docs:
+            https://cordova.apache.org/docs/en/latest/
+        Some notes:
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+    <!--                          default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; -->
+    <!-- <meta http-equiv="Content-Security-Policy" content=" style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' http:">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"> -->
+
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' http://192.168.2.127 http://192.168.2.127/config.json"> -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="connect-src 'unsafe-inline' http://192.168.2.127 http://192.168.2.127/config.json"> -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' http:"> -->
+
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"> -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; connect-src 'self' http://10.0.2.2"> -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <meta name="color-scheme" content="light dark">
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; script-src-elem * 'unsafe-inline' 'unsafe-eval'; img-src * data: 'unsafe-inline'; connect-src * 'unsafe-inline'; frame-src *;">
+    <meta http-equiv="Content-Security-Policy" content="default-src * gap://ready file:; style-src 'self' 'unsafe-inline' *; script-src-elem * 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *"> -->
+    <title>💡LED Control</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" sizes="any">
+  <link rel="icon" href="assets/favicon.png" type="image/png"> -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="css/minicolors.min.css">
+    <script src="app.js"></script>
+</head>
+
+<body data-bs-theme="dark">
+    <div class="container" id="container">
+        <div id="login">
+            <div id="user-div-pre" style=" justify-content: center;">
+                <h1 id="title-h1">LED Control</h1><a id="login-btn" class="login-btn" href="http://localhost:3000/login">Login</a><img id="img-settings2" src="/assets/settings.png" />
+            </div>
+        </div>
+        <div id="loggedin">
+            <div id="user-profile">
+            </div>
+            <div id="oauth">
+            </div>
+            <button class="btn btn-default" id="obtain-new-token" style="display: none;">Obtain new token using the refresh
+        token</button>
+            <button class="btn btn-default" id="getsong" style="display: none;">Aktueller Song</button>
+        </div>
+
+        <div id="container" class="container">
+            <form class="form-horizontal" id="form"></form>
+        </div>
+        <div id="templates" style="display: none;">
+            <div id="sectionTemplate" class="form-group">
+                <div class="col-sm-12">
+                    <hr style="margin-bottom: 5px; margin-top: 5px; border-top: 2px solid var(--textDark);" />
+                </div>
+            </div>
+            <div id="numberTemplate" class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                    <label class="col-sm-10 control-label slider-label" for="input-brightness">Brightness</label>
+                    <input class="form-control slider" type="range" step="1" min="1" max="255" id="input-brightness">
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+            <div id="booleanTemplate" class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-10">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" id="btnOn">On</button>
+                        <button type="button" class="btn btn-default" id="btnOff">Off</button>
+                    </div>
+                </div>
+            </div>
+            <div id="selectTemplate" class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-10" style="display: flex;">
+                    <select class="form-control"><select>
+              <button type="button" class="btn btn-default btn-previous" aria-label="Previous" title="Previous">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+              </button>
+              <button type="button" class="btn btn-default btn-next" aria-label="Next" title="Next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+              </button>
+        </div>
+      </div>
+      <div id="colorPaletteTemplate" class="form-group">
+        <label class="col-sm-2 control-label color-label"></label>
+        <div class="col-sm-10">
+          <div class="btn-group btn-group-justified" role="group">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default btn-color" style="background: #FF0000;"
+                title="Red">&nbsp;</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default btn-color" style="background: #FF8000;"
+                title="Orange">&nbsp;</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default btn-color" style="background: #FFFF00;"
+                title="Yellow">&nbsp;</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default btn-color" style="background: #80FF00;"
+                title="Chartreuse">&nbsp;</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default btn-color" style="background: #00FF00;"
+                title="Green">&nbsp;</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default btn-color" style="background: #00FF80;"
+                title="Spring Green">&nbsp;</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default btn-color" style="background: #00FEFF;"
+                title="Cyan">&nbsp;</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default btn-color" style="background: #0080FF;"
+                title="Azure">&nbsp;</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default btn-color" style="background: #0000FF;"
+                title="Blue">&nbsp;</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default btn-color" style="background: #8000FF;"
+                title="Violet">&nbsp;</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default btn-color" style="background: #FF00FF;"
+                title="Magenta">&nbsp;</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default btn-color" style="background: #FF0080;"
+                title="Rose">&nbsp;</button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default btn-color" style="background: #FFFFFF;"
+                title="White">&nbsp;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="colorTemplate">
+        <div class="form-group">
+          <!-- <label class="col-sm-2 control-label color-label"></label> -->
+          <div class="col-sm-12 col-sm-offset-2" style="max-width: 50vw;">
+            <input type="text" class="form-control minicolors" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Red</label>
+          <div class="col-sm-2">
+            <input class="form-control color-red-input" type="number" step="1" min="0" max="255" />
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control color-red-slider" type="range" step="1" min="0" max="255" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Green</label>
+          <div class="col-sm-2">
+            <input class="form-control color-green-input" type="number" step="1" min="0" max="255" />
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control color-green-slider" type="range" step="1" min="0" max="255" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Blue</label>
+          <div class="col-sm-2">
+            <input class="form-control color-blue-input" type="number" step="1" min="0" max="255" />
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control color-blue-slider" type="range" step="1" min="0" max="255" />
+          </div>
+        </div>
+      </div>
+      <div id="device-list-item-template" class="dev-list-item">
+        <div id="device-listindex">
+          <li class="dev-list-item-number">
+            <label class="dev-list-item-switch">
+              <input type="checkbox">
+              <span class="slider round"></span>
+            </label>
+          </li>
+        </div>
+
+        <div id="device-description">
+          <label class="dev-list-item-text">ERROR</label>
+          <br id="device-description-br">
+          <label class="dev-list-item-url">192.168.2.128</label>
+        </div>
+        <button class="dev-list-item-delete">X</button>
+      </div>
+    </div>
+
+
+    <script id="user-profile-template" type="text/x-handlebars-template">
+        <div class="pull-left" id="user-div">
+          <h1 id="title-h1">LED Control</h1>
+          <img class="media-object" width="50" id="img-usr" src="{{images.0.url}}" />
+          <div id="vert-usr">
+            <h1 id="name-h1">{{display_name}}</h1>
+            <p id="playing-device"> - </p>
+        </div>
+        <img id="img-settings" src="/assets/settings.png" />
+      </div>
+    </script>
+
+  </div>
+
+  <div id="settings">
+    <div id="settings-grid-left">
+      <h2 id="settings-title">Settings</h2>
+      <p id="settings-devices-btn" class="settings-grid-left-entry">Devices</p>
+      <p id="settings-page-btn" class="settings-grid-left-entry">Page</p>
+      <p id="settings-design-btn" class="settings-grid-left-entry">Design</p>
+      <p id="settings-close-btn" class="settings-grid-left-entry">Close</p>
+      <label id="madeby">by L3N0X</label>
+    </div>
+    <div id="settings-right-devices">
+      <div id="settings-add-panel">
+        <label id="add-text">Add Device</label>
+        <input id="add-input" type="text" placeholder="192.168.2. or hostname.local" />
+        <button id="add-btn">✓</button>
+      </div>
+      <ol id="settings-devicelist-panel">
+        <!-- devices -->
+      </ol>
+    </div>
+    <div id="settings-right-page">
+      <div id="right-menu-div">
+        <a href="/" class="menu-entry" id="logout">Logout</a>
+        <a href="javascript:window.location.reload(true)" class="menu-entry" id="reload">Reload</a>
+      </div>
+    </div>
+
+    <div id="settings-right-design">
+      <div id="right-menu-div">
+        <div id="colorpalette">
+          <span class="designcolor" id="dc-accent"></span>
+          <span class="designcolor" id="dc-text"></span>
+          <span class="designcolor" id="dc-bg"></span>
+          <span class="designcolor" id="dc-border"></span>
+          <span class="designcolor" id="dc-textdark"></span>
+          <span class="designcolor" id="dc-bgl"></span>
+        </div>
+        <div class="inputbox">
+          <input required="required" type="text" id="in-accent" />
+          <span>Accent Color</span>
+          <i></i>
+        </div>
+        <div class="inputbox">
+          <input required="required" type="text" id="in-text" />
+          <span>Text</span>
+          <i></i>
+        </div>
+        <div class="inputbox">
+          <input required="required" type="text" id="in-bg" />
+          <span>Background</span>
+          <i></i>
+        </div>
+        <div class="inputbox">
+          <input required="required" type="text" id="in-border" />
+          <span>Border</span>
+          <i></i>
+        </div>
+        <div class="inputbox">
+          <input required="required" type="text" id="in-textdark" />
+          <span>Text Other</span>
+          <i></i>
+        </div>
+        <div class="inputbox">
+          <input required="required" type="text" id="in-bgl" />
+          <span>Background Other</span>
+          <i></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div id="makedark"></div>
+
+  <div class="media" id="media">
+    <img id="song-img" src="assets/not-playing.png" />
+    <p id="song-title">Keine Wiedergabe</p>
+    <p id="song-artist">-</p>
+    <div id="song-controls">
+      <svg class="song-control-icons" id="song-shuffle" height="800px" width="800px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"  xml:space="preserve"><style type="text/css">.st0{fill:var(--accent);}</style><g><path class="st0" d="M418.976,324.763c-2.839-2.106-6.667-2.358-9.748-0.638c-3.081,1.733-4.861,5.103-4.573,8.628l2.454,28.148 c-11.937-1.733-22.768-4.429-32.732-7.954c-13.334-4.742-25.199-10.951-36.246-18.448c-16.535-11.24-31.24-25.524-45.056-42.059 c-5.295-6.318-10.446-12.972-15.524-19.868c-2.792,4.152-5.512,8.244-8.063,12.155c-9.723,14.74-20.145,30.169-31.625,45.32 c10.373,12.816,21.661,25.295,34.345,36.884c19.784,18.087,43.058,34.008,70.567,45.177c19.616,7.99,41.301,13.429,65.032,15.908 l-3.153,36.054c-0.288,3.513,1.492,6.894,4.573,8.616c3.081,1.733,6.908,1.48,9.748-0.626l89.388-66.44 c2.287-1.697,3.635-4.368,3.635-7.209c0-2.839-1.348-5.523-3.635-7.22L418.976,324.763z"/> <path class="st0" d="M77.186,159.054c13.31,4.742,25.199,10.951,36.222,18.448c16.559,11.24,31.264,25.524,45.08,42.047 c5.295,6.33,10.445,12.985,15.524,19.88c2.792-4.164,5.488-8.244,8.063-12.155c9.7-14.74,20.121-30.156,31.626-45.32 c-10.373-12.816-21.661-25.295-34.345-36.885c-19.784-18.086-43.058-34.02-70.568-45.175 c-27.51-11.204-59.039-17.497-94.612-17.473H0v66.547h14.176C38.966,148.993,59.4,152.748,77.186,159.054z"/> <path class="st0" d="M288.504,225.133c9.074-11.324,18.532-21.734,28.592-30.916c15.115-13.79,31.481-24.838,50.735-32.672 c11.746-4.754,24.67-8.365,39.279-10.47l-2.454,28.172c-0.288,3.526,1.492,6.896,4.573,8.628c3.081,1.72,6.908,1.468,9.748-0.638 l89.388-66.428c2.287-1.697,3.635-4.381,3.635-7.22c0-2.84-1.348-5.512-3.635-7.209l-89.388-66.44 c-2.839-2.106-6.667-2.359-9.748-0.626c-3.081,1.722-4.861,5.103-4.573,8.616l3.153,36.042 c-20.024,2.106-38.63,6.282-55.718,12.371c-18.942,6.727-36.03,15.681-51.385,26.127c-23.033,15.667-42.119,34.561-58.702,54.393 c-16.583,19.844-30.759,40.687-44.02,60.856c-11.408,17.328-22.816,34.044-34.923,49.147 c-9.074,11.324-18.532,21.722-28.593,30.916c-15.115,13.79-31.481,24.826-50.735,32.672c-19.279,7.81-41.662,12.552-69.558,12.575 H0v66.548h14.176c31.626,0.024,60.05-4.934,85.298-13.922c18.917-6.727,36.03-15.681,51.361-26.127 c23.057-15.668,42.119-34.562,58.702-54.393c16.607-19.844,30.783-40.687,44.045-60.856 C264.965,256.939,276.398,240.235,288.504,225.133z"/></g></svg>
+      <svg class="song-control-icons" id="song-prev" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>rewind-glyph</title><path d="M481.76,510.43c17,0,30.24-13.78,30.24-31.36V32.93c0-17.58-13.28-31.36-30.25-31.36a32.73,32.73,0,0,0-16.3,4.49L128.61,229.12C118.54,234.93,112.53,245,112.53,256s6,21.07,16.08,26.87L465.45,505.94a32.72,32.72,0,0,0,16.3,4.49Z" fill="var(--accent)"/><path d="M61.94,499.51a61.94,61.94,0,0,0,61.94-61.93V74.42A61.94,61.94,0,0,0,0,74.42V437.58A61.94,61.94,0,0,0,61.94,499.51Z" fill="var(--accent)"/></svg>
+      <svg class="song-control-icons" id="song-play" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>play-glyph</title><path d="M60.54,512c-17.06,0-30.43-13.86-30.43-31.56V31.55C30.12,13.86,43.48,0,60.55,0A32.94,32.94,0,0,1,77,4.52L465.7,229c10.13,5.85,16.18,16,16.18,27s-6,21.2-16.18,27L77,507.48A32.92,32.92,0,0,1,60.55,512Z" fill="var(--accent)"/></svg>
+      <svg class="song-control-icons" id="song-pause" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>pause-glyph</title><path d="M395,512a73.14,73.14,0,0,1-73.14-73.14V73.14a73.14,73.14,0,1,1,146.29,0V438.86A73.14,73.14,0,0,1,395,512Z" fill="var(--accent)"/><path d="M117,512a73.14,73.14,0,0,1-73.14-73.14V73.14a73.14,73.14,0,1,1,146.29,0V438.86A73.14,73.14,0,0,1,117,512Z" fill="var(--accent)"/></svg>
+      <svg class="song-control-icons" id="song-next" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>forward-glyph</title><path class="song-next" d="M30.24,510.43c-17,0-30.24-13.78-30.24-31.36V32.93C0,15.35,13.28,1.57,30.25,1.57a32.73,32.73,0,0,1,16.3,4.49L383.39,229.12c10.07,5.81,16.08,15.86,16.08,26.88s-6,21.07-16.08,26.87L46.55,505.94a32.72,32.72,0,0,1-16.3,4.49Z" fill="var(--accent)"/><path class="song-next" d="M450.06,499.51a61.94,61.94,0,0,1-61.94-61.93V74.42a61.94,61.94,0,0,1,123.88,0V437.58A61.94,61.94,0,0,1,450.06,499.51Z" fill="var(--accent)"/></svg>
+      <svg class="song-control-icons" id="song-repeat" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>refresh-glyph</title><path d="M66.71,287.91H0v160l47.36-43.59A255.71,255.71,0,0,0,255.9,512C386.54,512,494.19,414.15,510,287.91H445.29A192,192,0,0,1,95,360.6l79.08-72.69Zm0,0" fill="var(--accent)"/><path d="M255.9,0C125.46,0,17.64,97.63,2,224H66.71a192,192,0,0,1,353.26-68l-68,68H512v-160l-45.78,45.78A255.89,255.89,0,0,0,255.9,0Zm0,0" fill="var(--accent)"/></svg>
+      <svg class="song-control-icons" id="song-repeat-inf" height="800px" width="800px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"  xml:space="preserve"><style type="text/css">.st0{fill:var(--accent);}</style><g>	<path class="st0" d="M501.98,206.15c-9.769-23.023-25.998-42.56-46.458-56.389c-10.181-6.873-21.446-12.34-33.536-16.068		c-12.009-3.809-24.842-5.798-38.088-5.798c-16.982,0-33.294,3.316-48.197,9.365c-1.246,0.492-2.402,0.986-3.558,1.568		c-13.416,5.879-25.675,14.16-36.188,24.017c-3.396,3.227-6.623,6.623-9.858,10.432c-5.709,6.542-11.588,14.079-17.305,21.696		c-1.157,1.568-2.402,3.226-3.558,4.804c-3.146,4.302-33.212,48.358-38.509,56.226c-2.652,3.97-5.798,8.442-9.195,13.327		c-0.744,1.076-1.568,2.24-2.393,3.396c-5.636,8.031-11.928,16.481-17.726,23.937c-2.895,3.72-5.798,7.197-8.281,10.1		c-2.563,2.976-4.884,5.378-6.542,6.954c-7.116,6.704-15.486,12.171-24.672,15.899c-9.194,3.728-19.214,5.798-29.816,5.798		c-7.286,0-14.322-0.996-20.944-2.815c-3.396-0.913-6.712-2.07-9.939-3.477c-14.248-5.968-26.419-16.068-34.95-28.74		c-4.302-6.372-7.699-13.327-10.019-20.783c-2.233-7.456-3.558-15.316-3.558-23.597c0-11.014,2.24-21.365,6.21-30.892		c6.049-14.24,16.149-26.329,28.821-34.942c6.372-4.31,13.326-7.618,20.782-9.939c7.448-2.321,15.316-3.638,23.597-3.638		c10.602,0.08,20.622,2.07,29.816,5.79c9.187,3.808,17.556,9.194,24.672,15.898c1.658,1.577,3.979,4.059,6.542,6.962		c4.472,5.216,9.769,11.92,15.074,18.964c2.07,2.814,4.14,5.628,6.21,8.523c7.949-11.588,21.858-31.959,29.144-42.48		c-1.237-1.658-2.482-3.307-3.72-4.965c-3.316-4.23-6.631-8.281-9.938-12.009c-3.316-3.809-6.462-7.205-9.858-10.432		c-11.426-10.772-24.922-19.545-39.746-25.586c-14.904-6.049-31.222-9.365-48.196-9.365c-17.637,0-34.53,3.566-49.927,10.108		c-23.022,9.688-42.487,25.918-56.316,46.369c-6.873,10.19-12.332,21.527-16.141,33.536C1.989,229.997,0,242.75,0,256.004		c0,17.637,3.558,34.53,10.02,49.846c9.768,23.104,25.998,42.569,46.369,56.397c10.27,6.874,21.535,12.332,33.624,16.141		c12.008,3.728,24.842,5.717,38.088,5.717c16.974,0,33.293-3.316,48.196-9.356c14.824-6.049,28.239-14.824,39.666-25.506l0.08-0.081		c3.397-3.146,6.543-6.631,9.858-10.44c5.709-6.542,11.588-14.071,17.305-21.689c1.157-1.577,2.402-3.154,3.558-4.723		c3.146-4.391,44.307-64.758,47.696-69.642c0.752-1.076,1.577-2.232,2.401-3.396c5.637-7.95,11.928-16.48,17.726-23.928		c2.895-3.728,5.798-7.206,8.281-10.101c2.564-2.984,4.885-5.386,6.542-6.962c7.116-6.704,15.486-12.09,24.673-15.898		c2.24-0.906,4.472-1.649,6.792-2.402c7.286-2.15,14.984-3.307,23.023-3.388c11.013,0.08,21.446,2.232,30.882,6.291		c14.241,5.96,26.42,16.06,34.943,28.732c4.31,6.38,7.706,13.335,10.019,20.782c2.321,7.456,3.566,15.324,3.566,23.605		c0,11.014-2.24,21.446-6.21,30.883c-6.049,14.24-16.149,26.419-28.821,34.942c-6.372,4.31-13.326,7.707-20.782,9.939		c-7.367,2.321-15.316,3.648-23.597,3.648c-10.602,0-20.622-2.07-29.816-5.798c-9.187-3.728-17.557-9.195-24.673-15.899		c-1.658-1.577-3.979-4.059-6.542-6.954c-4.472-5.135-9.776-11.928-15.074-18.963c-2.15-2.815-4.221-5.718-6.291-8.613		c-0.663,0.994-1.326,1.99-2.07,3.065c-13.666,20.039-22.279,32.71-26.994,39.576c1.237,1.658,2.483,3.235,3.72,4.893		c3.316,4.221,6.631,8.281,9.938,12c3.234,3.808,6.462,7.294,9.858,10.44c11.426,10.763,24.923,19.538,39.746,25.587		c14.904,6.04,31.215,9.356,48.197,9.356c17.636,0,34.53-3.558,49.846-10.019c23.103-9.769,42.56-25.999,56.396-46.458		c6.866-10.181,12.421-21.446,16.141-33.536C510.01,282.083,512,269.25,512,256.004C512,238.367,508.442,221.474,501.98,206.15z"/></g></svg>
+    </div>
+  </div>
+
+  <script id="oauth-template" type="text/x-handlebars-template">
+      <h2 style="display: none;">oAuth info</h2>
+      <dl class="dl-horizontal"  style="display: none;">
+        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
+        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}</dd>
+      </dl>
+    </script>
+    <script src="cordova.js"></script>
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script> -->
+  
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/minicolors.min.js"></script>
+  <script src="js/handlebars.js"></script>
+  <script src="js/jquery-1.10.1.min.js"></script>
+
+   <!-- edited-->
+  <script src="script.js"></script>
+  <script src="js/lampen.js"></script>
+  <!-- <script src="init.js"></script> -->
+</body>
+
+</html>

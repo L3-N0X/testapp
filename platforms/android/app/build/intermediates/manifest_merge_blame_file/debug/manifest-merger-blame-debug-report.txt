@@ -1,0 +1,85 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.l3n0x.ledControl"
+4    android:hardwareAccelerated="true"
+5    android:versionCode="10000"
+6    android:versionName="1.0.0" >
+7
+8    <uses-sdk
+9        android:minSdkVersion="22"
+9-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml
+10        android:targetSdkVersion="30" />
+10-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml
+11
+12    <supports-screens
+12-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:3:5-191
+13        android:anyDensity="true"
+13-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:3:23-48
+14        android:largeScreens="true"
+14-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:3:49-76
+15        android:normalScreens="true"
+15-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:3:77-105
+16        android:resizeable="true"
+16-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:3:106-131
+17        android:smallScreens="true"
+17-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:3:132-159
+18        android:xlargeScreens="true" />
+18-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:3:160-188
+19
+20    <uses-permission android:name="android.permission.INTERNET" />
+20-->[:CordovaLib] /home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/CordovaLib/build/intermediates/merged_manifest/debug/AndroidManifest.xml:27:5-67
+20-->[:CordovaLib] /home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/CordovaLib/build/intermediates/merged_manifest/debug/AndroidManifest.xml:27:22-64
+21    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+21-->[:CordovaLib] /home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/CordovaLib/build/intermediates/merged_manifest/debug/AndroidManifest.xml:28:5-79
+21-->[:CordovaLib] /home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/CordovaLib/build/intermediates/merged_manifest/debug/AndroidManifest.xml:28:22-76
+22    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+22-->[:CordovaLib] /home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/CordovaLib/build/intermediates/merged_manifest/debug/AndroidManifest.xml:29:5-76
+22-->[:CordovaLib] /home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/CordovaLib/build/intermediates/merged_manifest/debug/AndroidManifest.xml:29:22-73
+23    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+23-->[:CordovaLib] /home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/CordovaLib/build/intermediates/merged_manifest/debug/AndroidManifest.xml:29:5-76
+23-->[:CordovaLib] /home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/CordovaLib/build/intermediates/merged_manifest/debug/AndroidManifest.xml:29:22-73
+24
+25    <application
+25-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:4:5-11:19
+26        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+26-->[androidx.core:core:1.5.0] /home/l3n0x/.gradle/caches/transforms-3/09314801a92bc2d84a1fe4a156efb7a9/transformed/core-1.5.0/AndroidManifest.xml:24:18-86
+27        android:debuggable="true"
+28        android:hardwareAccelerated="true"
+28-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:4:18-52
+29        android:icon="@mipmap/ic_launcher"
+29-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:4:53-87
+30        android:label="@string/app_name"
+30-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:4:88-120
+31        android:supportsRtl="true" >
+31-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:4:121-147
+32        <activity
+32-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:5:9-10:20
+33            android:name="com.l3n0x.ledControl.MainActivity"
+33-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:5:229-256
+34            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
+34-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:5:19-135
+35            android:exported="true"
+35-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:5:136-159
+36            android:label="@string/activity_name"
+36-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:5:160-197
+37            android:launchMode="singleTop"
+37-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:5:198-228
+38            android:theme="@style/Theme.AppCompat.NoActionBar"
+38-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:5:257-307
+39            android:windowSoftInputMode="adjustResize" >
+39-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:5:308-350
+40            <intent-filter android:label="@string/launcher_name" >
+40-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:6:13-9:29
+40-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:6:28-65
+41                <action android:name="android.intent.action.MAIN" />
+41-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:7:17-69
+41-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:7:25-66
+42
+43                <category android:name="android.intent.category.LAUNCHER" />
+43-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:8:17-77
+43-->/home/l3n0x/Dokumente/CODING/JS/Cordova-test/testapp/platforms/android/app/src/main/AndroidManifest.xml:8:27-74
+44            </intent-filter>
+45        </activity>
+46    </application>
+47
+48</manifest>
