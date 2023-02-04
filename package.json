@@ -1,0 +1,28 @@
+{
+    "name": "com.l3n0x.ledcontrol",
+    "displayName": "LEDControl",
+    "version": "1.0.0",
+    "description": "Control the LEDs!",
+    "main": "app.js",
+    "scripts": {
+        "test": "app.js",
+        "run": "app.js"
+    },
+    "keywords": [
+        "ecosystem:cordova"
+    ],
+    "author": "L3N0X",
+    "license": "MIT",
+    "cordova": {
+        "platforms": [
+            "android"
+        ],
+        "plugins": {
+            "cordova-plugin-console": {}
+        }
+    },
+    "devDependencies": {
+        "cordova-android": "^10.1.2",
+        "cordova-plugin-console": "^1.1.0"
+    }
+}

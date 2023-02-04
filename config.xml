@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.l3n0x.ledControl" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>LED Control</name>
+     <icon src="/www/img/logo.png" platform="android" width="57" height="57" density="mdpi" />
+    <description>Control the LEDs!</description>
+    <author email="leon.goett@proton.me" href="http://www.youtube.com/watch?v=oHg5SJYRHA0">
+        L3N0X
+    </author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+     <allow-intent href="https://*/*" />
+    <preference name="Scheme" value="http" />
+    <preference name="MixedContentMode" value="0" />
+    <access origin="*" />
+    <!-- <preference name="usesCleartextTraffic" value="true" /> -->
+</widget>
